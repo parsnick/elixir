@@ -1,10 +1,10 @@
 var gulp = require('gulp');
 var gutil = require('gulp-util');
-var watchify = require('watchify');
 var buffer = require('vinyl-buffer');
 var Elixir = require('laravel-elixir');
-var browserify = require('browserify');
 var source = require('vinyl-source-stream');
+var watchify;
+var browserify;
 
 var bundle;
 var $ = Elixir.Plugins;
@@ -83,7 +83,7 @@ var prepGulpPaths = function(src, baseDir, output) {
  * @param {object} data
  */
 var browserifyStream = function(data) {
-    var stream = browserify(data.paths.src.path, data.options);
+    var stream = require('browserify')(data.paths.src.path, data.options);
 
     config.js.browserify.transformers.forEach(function(transformer) {
         stream.transform(
@@ -110,7 +110,7 @@ var browserifyStream = function(data) {
  * @param {object} data
  */
 var watchifyStream = function(data) {
-    var browserify = watchify(
+    var browserify = require('watchify')(
         browserifyStream(data),
         config.js.browserify.watchify.options
     );

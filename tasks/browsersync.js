@@ -2,7 +2,7 @@ var gulp = require('gulp');
 var _ = require('underscore');
 var gutils = require('gulp-util');
 var Elixir = require('laravel-elixir');
-var browserSync = require('browser-sync').create();
+var browserSync;
 
 var config = Elixir.config;
 
@@ -41,7 +41,7 @@ Elixir.extend('browserSync', function (options) {
 
     // Browsersync will only run during `gulp watch`.
     if (gutils.env._.indexOf('watch') > -1) {
-        browserSync.init(options);
+        require('browser-sync').create().init(options);
     }
 
     new Elixir.Task('browserSync', function () {}).watch();
